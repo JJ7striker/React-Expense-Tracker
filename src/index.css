@@ -1,1 +1,6 @@
 @import "tailwindcss";
+/* @plugin "daisyui"; */
+
+.larger_screen {
+  @apply md:px-0 md:py-0 md:translate-y-0 md:bg-transparent md:visible md:opacity-100 md:relative md:flex-row md:h-auto md:w-auto md:shadow-none md:space-y-0 md:space-x-6;
+}
