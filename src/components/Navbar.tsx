@@ -12,6 +12,7 @@ const Navbar = () => {
     const handleClose = () => {
         setIsOpen(false);
     }
+    
   return (
     <header className="w-full h-13 shadow-sm z-50 shadow-gray-400 flex justify-between items-center px-2">
         <h2 className="text-lg font-bold text-blue-600">SpendFlow</h2>

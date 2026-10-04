@@ -1,12 +1,17 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { onAuthStateChanged, signInWithPopup, type User } from "firebase/auth";
 import { auth, provider } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext(null);
+interface UserInfo {
+  userInfo: User | null,
+  googleAuth: () => void
+}
+
+const AuthContext = createContext<UserInfo | null>(null);
 
 const AuthContextProvider = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
   const navigate = useNavigate();
 
   const googleAuth = async () => {

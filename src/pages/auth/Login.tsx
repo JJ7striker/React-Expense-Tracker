@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { googleAuth } = Auth();
+  // const { googleAuth } = Auth();
 
   const logIn = async (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ const Login = () => {
         <div className="w-11/12 max-w-lg px-3 pt-2 pb-5 shadow-sm shadow-gray-400 rounded-sm">
           <h2 className="text-center text-lg font-medium">Log In</h2>
 
-          <button className="w-4/5 h-auto py-1.5 px-3 bg-gray-200 shadow-sm shadow-gray-400 hover:scale-101 transition-all duration-200 ease-in-out mt-5 block mx-auto" onClick={googleAuth}>Google</button>
+          <button className="w-4/5 h-auto py-1.5 px-3 bg-gray-200 shadow-sm shadow-gray-400 hover:scale-101 transition-all duration-200 ease-in-out mt-5 block mx-auto">Google</button>
 
           <form className="w-full px-7 flex flex-col items-center gap-4 mt-9" onSubmit={logIn}>
             <div className="w-full flex flex-col items-start gap-2">
