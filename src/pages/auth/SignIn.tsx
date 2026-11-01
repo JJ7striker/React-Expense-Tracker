@@ -20,6 +20,8 @@ const SignIn = () => {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch(err) {
       console.log("Error signing in, ", err)
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -28,7 +30,7 @@ const SignIn = () => {
       <div className='max-w-lg w-11/12 shadow-sm shadow-gray-400 rounded-sm py-3 px-3'>
       <h1 className="text-xl font-bold bg-clip-text text-transparent text-center bg-linear-to-r from-blue-600 to-indigo-700">TaskFlow</h1>
       <h2 className='text-center font-medium text-lg mt-5'>Sign In</h2>
-      <Button className={"text-lg shadow-sm bg-white text-blue-600 w-3/5 block mx-auto mt-5 hover:bg-blue-600 hover:text-white shadow-gray-300"}>{loading ? <Loader className='animate-bounce' /> : "Google"}</Button>
+      <Button className={"text-lg shadow-sm bg-white text-blue-600 w-3/5 block mx-auto mt-5 hover:bg-blue-600 hover:text-white shadow-gray-300"} onClick={googleAuth}>{loading ? <Loader className='animate-bounce' /> : "Google"}</Button>
 
       <form className='w-full h-auto px-6 mt-8 flex items-center flex-col gap-4' onSubmit={signInUser}>
         <div className='w-full flex items-start flex-col gap-2'>

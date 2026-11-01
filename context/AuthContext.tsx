@@ -6,9 +6,24 @@ import { useNavigate } from "react-router-dom"
 const AuthContext = createContext(null);
 
 const AuthContextProvider = ({ children }) => {
+    const currentDate = new Date().toISOString().split("T")[0];
     const [loading, setLoading] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+      const [editBudgetData, setEditBudgetData] = useState(null);
+      const [isOpen, setIsOpen] = useState<number | null>(null);
+    const [trasactionObj, setTransactionObj] = useState({
+    type: "expense",
+    description: "",
+    amount: "",
+    category: "",
+    date: currentDate,
+    notes: ""
+    
+  })
     const navigate = useNavigate();
+
+
+
 
     const googleAuth = async () => {
         setLoading(true);
@@ -32,9 +47,9 @@ const AuthContextProvider = ({ children }) => {
             }
         })
         return unsubscribe
-    }, [navigate])
+    }, [])
   return (
-    <AuthContext.Provider value={{googleAuth, userInfo, loading}}>
+    <AuthContext.Provider value={{googleAuth, userInfo, loading, trasactionObj, setTransactionObj, isOpen, setIsOpen, editBudgetData, setEditBudgetData}}>
         {children}
     </AuthContext.Provider>
   )

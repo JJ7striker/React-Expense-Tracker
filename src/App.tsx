@@ -9,12 +9,12 @@ import AppLayout from "./pages/layouts/AppLayout"
 import Dashboard from "./pages/app/Dashboard"
 import Transactions from "./pages/app/Transactions"
 import Budgets from "./pages/app/Budgets"
-import Categories from "./pages/app/Categories"
 import Settings from "./pages/app/Settings"
 import AuthLayouts from "./pages/layouts/AuthLayouts"
 import SignIn from "./pages/auth/SignIn"
 import LogIn from "./pages/auth/LogIn"
 import MainLayout from "./pages/layouts/MainLayout"
+import Reports from "./pages/app/Reports"
 const App = () => {
   return (
     <Routes>
@@ -31,9 +31,10 @@ const App = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/transactions" element={<Transactions />} />
       <Route path="/budgets" element={<Budgets />} />
-      <Route path="/categories" element={<Categories />} />
+      <Route path="/reports" element={<Reports />} />
       <Route path="/settings" element={<Settings />} />
       </Route>
+      
 
       <Route element={<AuthLayouts />}>
       <Route path="/signin" element={<SignIn />} />
