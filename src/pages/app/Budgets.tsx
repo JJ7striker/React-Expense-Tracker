@@ -52,7 +52,6 @@ const Budgets = () => {
     return categoryAmtValue;
   }
 
-
   return (
     <div className="w-full min-h-screen px-5 py-6">
       <div className="w-full flex justify-between gap-4 items-center">
@@ -67,11 +66,10 @@ const Budgets = () => {
       </div>
 
       <div className="w-full h-auto grid grid-cols-1 md:grid-cols-3 gap-10 place-items-center mt-6 px-5">
-          {loading ? <Loader className="animate-spin" /> : budgetData.length <=  0 ? <p>Create A Budget...</p> : budgetData.map(data => (
+          {loading ? <Loader className="animate-spin" /> : budgetData.length ===  0 && !loading  ? <p>Create A Budget...</p> : budgetData.map(data => (
             <BudgetCard data={data} key={data?.id} loading={loading} spent={categoryAmt} />
           ))}
       </div>
-
 
     </div>
   )

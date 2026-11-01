@@ -21,7 +21,6 @@ const Navbar = () => {
             <X onClick={() => setIsOpen(false)} className="absolute md:hidden left-4 top-4" />
                 <Link to={"/"} className={location.pathname === "/" ? "text-blue-600" : ""} onClick={handleClosed}>Home</Link>
                 <Link to={"/features"} className={location.pathname === "/features" ? "text-blue-600" : ""} onClick={handleClosed}>Features</Link>
-                <Link to={"/pricing"} className={location.pathname === "/pricing" ? "text-blue-600" : ""} onClick={handleClosed}>Pricing</Link>
                 <Link to={"/about"} className={location.pathname === "/about" ? "text-blue-600" : ""} onClick={handleClosed}>About</Link>
                 <Link to={"/contact"} className={location.pathname === "/contact" ? "text-blue-600" : ""} onClick={handleClosed}>Contact</Link>
         </nav>

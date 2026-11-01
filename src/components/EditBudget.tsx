@@ -16,7 +16,6 @@ const EditBudget = ({ setIsOpen, budgetData }) => {
         date: editBudgetData?.date
       });
 
-
       const editBudget = async (e) => {
         e.preventDefault();
         const docRef = doc(db, "budgets", editBudgetData?.id );
@@ -30,7 +29,6 @@ const EditBudget = ({ setIsOpen, budgetData }) => {
           setIsOpen(null);
         }
       }
-
 
   return (
         <div className='w-full min-h-screen fixed inset-0 z-50 backdrop-blur-md flex justify-center py-5 overflow-y-auto'>

@@ -34,8 +34,8 @@ const Features = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
         { cards.map(card => (
           <div className="w-full flex flex-col gap-3 rounded-sm shadow-sm hover:ring-4 transition-all duration-200 ring-gray-300 shadow-gray-400 items-start px-6 py-4" key={card.title}>
-            <h2 className="text-lg font-medium">{card.title}</h2>
-            <p className="font-medium">{card.info}</p>
+            <h2 className="text-lg font-bold">{card.title}</h2>
+            <p className="font-medium text-blue-600">{card.info}</p>
 
           </div>
         ))

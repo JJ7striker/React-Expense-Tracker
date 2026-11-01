@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import LandingImg from "../../../public/LandingImg.png";
 import { Button } from "../../components/ui/button";
 
 const Home = () => {
+  const navigate = useNavigate()
   const cards = [
     {
       title: "Smart Tracking",
@@ -35,7 +37,7 @@ const Home = () => {
             smart insights and beautiful reports
           </p>
           <div className="w-full flex items-center justify-center gap-4">
-            <Button className={"text-white bg-blue-600 flex-1 shadow-sm shadow-gray-300 hover:text-blue-600"} variant={"ghost"}>Get Started for Free</Button>
+            <Button className={"text-white bg-blue-600 flex-1 shadow-sm shadow-gray-300 hover:text-blue-600"} variant={"ghost"} onClick={() => navigate("/signin")}>Get Started for Free</Button>
             <Button className={"text-blue-600 bg-white flex-1 shadow-sm shadow-gray-300 hover:bg-blue-600 hover:text-white"} variant={"ghost"}>View Demo</Button>
           </div>
         </div>

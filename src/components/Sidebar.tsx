@@ -25,7 +25,6 @@ const Sidebar = () => {
                 <Link to={"/dashboard"} className={location.pathname === "/dashboard" ? "text-blue-600" : ""} onClick={handleClose}>Dashboard</Link>
                 <Link to={"/transactions"} className={location.pathname === "/transactions" ? "text-blue-600" : ""} onClick={handleClose}>Transactions</Link>
                 <Link to={"/budgets"} className={location.pathname === "/budgets" ? "text-blue-600" : ""} onClick={handleClose}>Budgets</Link>
-                <Link to={"/reports"} className={location.pathname === "/reports" ? "text-blue-600" : ""} onClick={handleClose}>Reports</Link>
                 <Link to={"/settings"} className={location.pathname === "/settings" ? "text-blue-600" : ""} onClick={handleClose}>Settings</Link>
         </nav>
         <div className="flex items-center gap-4 md:absolute md:bottom-3 md:left-10">
