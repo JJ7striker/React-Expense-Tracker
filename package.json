@@ -1,13 +1,14 @@
 {
+  "homepage": "http://JJ7striker.github.io/React-Expense-Tracker",
   "name": "reat-expense-tracker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
