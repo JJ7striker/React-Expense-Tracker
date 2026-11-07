@@ -14,7 +14,6 @@ import AuthLayouts from "./pages/layouts/AuthLayouts"
 import SignIn from "./pages/auth/SignIn"
 import LogIn from "./pages/auth/LogIn"
 import MainLayout from "./pages/layouts/MainLayout"
-import Reports from "./pages/app/Reports"
 const App = () => {
   return (
     <Routes>
@@ -31,7 +30,6 @@ const App = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/transactions" element={<Transactions />} />
       <Route path="/budgets" element={<Budgets />} />
-      <Route path="/reports" element={<Reports />} />
       <Route path="/settings" element={<Settings />} />
       </Route>
       
