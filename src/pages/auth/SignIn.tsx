@@ -12,7 +12,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
 
-  const { googleAuth, loading } = Auth();
+  const { googleAuth, loading, anonymousSignIn } = Auth();
 
   const signInUser = async (e) => {
     e.preventDefault();
@@ -31,7 +31,10 @@ const SignIn = () => {
       <div className='max-w-lg w-11/12 shadow-sm shadow-gray-400 rounded-sm py-3 px-3'>
       <h1 className="text-xl font-bold bg-clip-text text-transparent text-center bg-linear-to-r from-blue-600 to-indigo-700">TaskFlow</h1>
       <h2 className='text-center font-medium text-lg mt-5'>Sign In</h2>
+      <div>
       <Button className={"text-lg shadow-sm bg-white text-blue-600 w-3/5 block mx-auto mt-5 hover:bg-blue-600 hover:text-white shadow-gray-300"} onClick={googleAuth}>{loading ? <Loader className='animate-bounce' /> : "Google"}</Button>
+      <Button className={"text-lg shadow-sm bg-white text-blue-600 w-3/5 block mx-auto mt-5 hover:text-blue-600 shadow-gray-300"} onClick={anonymousSignIn}>{loading ? <Loader className='animate-bounce' /> : "Sign In As Guest"}</Button>
+      </div>
 
       <form className='w-full h-auto px-6 mt-8 flex items-center flex-col gap-4' onSubmit={signInUser}>
         <div className='w-full flex items-start flex-col gap-2'>
@@ -41,7 +44,7 @@ const SignIn = () => {
 
         <div className='w-full flex items-start flex-col gap-2'>
           <label htmlFor="password">Password</label>
-          <Input type='password' id='password' onChange={(e) => setPassword(e.target.value)} value={password} className='w-full h-9 shadow-sm shadow-gray-300' placeholder='Enter Email' />
+          <Input type='password' id='password' onChange={(e) => setPassword(e.target.value)} value={password} className='w-full h-9 shadow-sm shadow-gray-300' placeholder='Enter Password' />
         </div>
         <Button className={"text-white bg-blue-700 hover:text-blue-600 w-3/5 block mx-auto"} variant={"ghost"} type='submit'>{isLoading ? <Loader className='animate-bounce' /> : "Sign In"}</Button>
       </form>

@@ -3,6 +3,7 @@ import { onAuthStateChanged, signInWithPopup, type User } from "firebase/auth";
 import { auth, provider } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import type { Budget } from "../components/types";
+import { signInAnonymously } from "firebase/auth";
 
 interface TransactionObj {
      type: string,
@@ -23,6 +24,8 @@ interface AuthContextType {
   setIsOpen: React.Dispatch<React.SetStateAction<number | null>>;
   editBudgetData: Budget | null;
   setEditBudgetData: React.Dispatch<React.SetStateAction<Budget | null>>;
+  anonymousSignIn: () => Promise<void>;
+  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,6 +33,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const currentDate = new Date().toISOString().split("T")[0];
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [editBudgetData, setEditBudgetData] = useState<Budget | null>(null);
   const [isOpen, setIsOpen] = useState<number | null>(null);
@@ -53,6 +57,17 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     }
   };
+
+  const anonymousSignIn = async () => {
+    setIsLoading(true)
+    try {
+      await signInAnonymously(auth);
+    } catch (err) {
+      console.log("Error signing in anonymously, ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -78,6 +93,8 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         setIsOpen,
         editBudgetData,
         setEditBudgetData,
+        anonymousSignIn,
+        isLoading
       }}
     >
       {children}
