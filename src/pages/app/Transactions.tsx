@@ -3,52 +3,80 @@ import { Button } from "../../components/ui/button";
 import AddFormModal from "../../components/AddFormModal";
 import { Input } from "../../components/ui/input";
 import { Loader, Search } from "lucide-react";
-import { onSnapshot, collection, doc, deleteDoc } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  doc,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import {
   NativeSelect,
   NativeSelectOption,
 } from "../../components/ui/native-select";
 import ButtonModal from "../../components/ButtonModal";
+import { Auth } from "../../../context/AuthContext";
+
+interface TransactionData {
+  amount: string,
+  category: string,
+  createdAt: string,
+  date: string,
+  description: string,
+  notes: string,
+  type: string
+}
 
 const Transactions = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<TransactionData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [type, setType] = useState("all");
   const [select, setSelect] = useState("all");
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "transactions"),
-      (snapshot) => {
-        const userData = snapshot.docs.map((data) => ({
-          id: data.id,
-          ...data.data(),
-        }));
-        setData(userData);
-        setLoading(false);
-      },
-    );
-    return unsubscribe;
-  }, []);
+  const { userInfo } = Auth();
 
-  const deleteItem = async (id: any) => {
+  const dbCollection = collection(db, "transactions");
+
+  useEffect(() => {
+    if (!userInfo?.uid) {
+      return;
+    }
+    const q = query(dbCollection, where("uid", "==", userInfo?.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const userData = snapshot.docs.map((data) => ({
+        id: data?.id,
+        ...data?.data(),
+      }));
+      setData(userData);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, [userInfo?.uid]);
+
+  const deleteItem = async (id: string) => {
     try {
       const docRef = doc(db, "transactions", id);
-       await deleteDoc(docRef);
-    } catch(err) {
+      await deleteDoc(docRef);
+    } catch (err) {
       console.log("Error deleting document ", err);
     }
-  }
+  };
 
   const searchedArr = () => {
-    const filteredData = data?.filter(data => data?.description.toLowerCase().includes(search.toLowerCase()) && (select !== "all" ?  data?.category === select : data) && (type !== "all" ? data?.type === type : data))
+    const filteredData = data?.filter(
+      (data) =>
+        data?.description.toLowerCase().includes(search.toLowerCase()) &&
+        (select !== "all" ? data?.category === select : data) &&
+        (type !== "all" ? data?.type === type : data),
+    );
     return filteredData;
-  }
+  };
 
-  const filteredData = searchedArr();
+  const filteredData: TransactionData[] = searchedArr();
 
   return (
     <div className="w-full min-h-screen py-4 px-3">
@@ -72,11 +100,17 @@ const Transactions = () => {
           <Input
             id="search"
             placeholder="Search for transactions..."
-            className="flex-1" onChange={(e) => setSearch(e.target.value)} value={search}
+            className="flex-1"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
           />
         </div>
 
-        <NativeSelect className="w-full" onChange={(e) => setSelect(e.target.value)} value={select}>
+        <NativeSelect
+          className="w-full"
+          onChange={(e) => setSelect(e.target.value)}
+          value={select}
+        >
           <NativeSelectOption value={"all"}>All</NativeSelectOption>
           <NativeSelectOption value={"🏠 Housing"}>
             🏠 Housing
@@ -96,9 +130,7 @@ const Transactions = () => {
           <NativeSelectOption value={"🎬 Entertainment"}>
             🎬 Entertainment
           </NativeSelectOption>
-          <NativeSelectOption value={"✈️ Travel"}>
-            ✈️ Travel
-          </NativeSelectOption>
+          <NativeSelectOption value={"✈️ Travel"}>✈️ Travel</NativeSelectOption>
           <NativeSelectOption value={"📚 Education"}>
             📚 Education
           </NativeSelectOption>
@@ -115,14 +147,12 @@ const Transactions = () => {
       <div className="w-full flex items-center justify-center md:justify-start gap-2 mt-10">
         <Button
           className={`md:flex-1 shadow-sm shadow-gray-500 text-sm ${type === "all" ? "bg-white text-black hover:bg-white hover:text-black" : "text-white bg-blue-600 hover:text-white hover:bg-blue-600"}`}
-          
           onClick={() => setType("all")}
         >
           All
         </Button>
         <Button
           className={`md:flex-1 shadow-sm shadow-gray-500 text-sm ${type === "income" ? "bg-white text-black hover:bg-white hover:text-black" : "text-white bg-blue-600 hover:text-white hover:bg-blue-600"}`}
-          
           onClick={() => setType("income")}
         >
           Income
@@ -135,33 +165,34 @@ const Transactions = () => {
         >
           Expense
         </Button>
-      
       </div>
 
       <div className="w-full overflow-x-auto h-auto mt-5">
-        <table className="grid h-auto overflow-x-hidden grid-cols-6 border-collapse gap-5 table-fixed w-[1000px] py-8">
-          <th>Date</th>
-          <th>Description</th>
-          <th>Category</th>
-          <th>Amount</th>
-          <th>Type</th>
-          <th>Actions</th>
-
-          {loading ? (
-            <Loader className="aimate-spin" />
-          ) : (
-            filteredData?.map((data) => (
-              <React.Fragment key={data?.id}>
-                <td className="text-center">{data?.date}</td>
-                <td className="text-center">{data?.description}</td>
-                <td className="text-center">{data?.category}</td>
-                <td className="text-center">$ {data?.amount}</td>
-                <td className="text-center">{data?.type}</td>
-                <ButtonModal deleteItem={deleteItem} id={data?.id} data={data} />
-              </React.Fragment>
-            ))
-          )}
-        </table>
+        {!loading && filteredData.length === 0 ? (
+          <p className="text-center text-lg font-medium text-blue-600">Enter Transactions Here...</p>
+        ) : loading ? (
+          <Loader className="aimate-spin" />
+        ) : (
+          filteredData?.map((data) => (
+            <table
+              className="grid h-auto overflow-x-hidden grid-cols-6 border-collapse  table-fixed w-[1000px] py-8"
+              key={data?.id}
+            >
+              <th>Date</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Actions</th>
+              <td className="text-center">{data?.date}</td>
+              <td className="text-center">{data?.description}</td>
+              <td className="text-center">{data?.category}</td>
+              <td className="text-center">$ {data?.amount}</td>
+              <td className="text-center">{data?.type}</td>
+              <ButtonModal deleteItem={deleteItem} id={data?.id} data={data} />
+            </table>
+          ))
+        )}
       </div>
     </div>
   );

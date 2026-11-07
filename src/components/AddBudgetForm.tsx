@@ -5,10 +5,12 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { Auth } from "../../context/AuthContext";
 
 const AddBudgetForm = ({ setIsOpen }) => {
    const date = new Date;
   const currentDate = date.toISOString().split("T")[0];
+  const { userInfo } = Auth()
   const [budgetInfo, setBudgetInfo] = useState({
     category: "",
     amount: "",
@@ -21,7 +23,7 @@ const AddBudgetForm = ({ setIsOpen }) => {
     setIsLoading(true);
     try {
       const docRef = collection(db, "budgets");
-      await addDoc(docRef, budgetInfo);
+      await addDoc(docRef, {...budgetInfo, uid: userInfo?.uid});
     } catch(err) {
       console.log("Error creating buget ", err);
     } finally {

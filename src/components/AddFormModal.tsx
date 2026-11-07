@@ -10,7 +10,8 @@ import { db } from '../../firebase/firebase';
 import { serverTimestamp } from 'firebase/firestore';
 
 const AddFormModal = ({ setIsModalOpen }) => {
-  const { trasactionObj, setTransactionObj } = Auth();
+  const { trasactionObj, setTransactionObj, userInfo } = Auth();
+  const currentDate = new Date().toISOString().split("T")[0];
   const [loading, setLoading ] = useState(false);
 
   const addTransactions = async (e) => {
@@ -18,13 +19,21 @@ const AddFormModal = ({ setIsModalOpen }) => {
     setLoading(true);
     try {
       const docRef = collection(db, "transactions");
-      const data = await addDoc(docRef, {...trasactionObj, createdAt: serverTimestamp()});
+      const data = await addDoc(docRef, {...trasactionObj, createdAt: serverTimestamp(), uid: userInfo?.uid});
       console.log(data);
     } catch(err) {
       console.log("Error adding document, ", err);
     } finally {
       setLoading(false);
-      setIsModalOpen(false)
+      setIsModalOpen(false);
+      setTransactionObj({
+        type: "expense",
+    description: "",
+    amount: "",
+    category: "",
+    date: currentDate,
+    notes: ""
+      })
     }
   }
 
@@ -67,6 +76,7 @@ const AddFormModal = ({ setIsModalOpen }) => {
           <NativeSelectOption value={"Job"}>Job</NativeSelectOption>
           </NativeSelect>
         </div>
+
 
         <div className='w-full flex flex-col items-start gap-2'>
           <label htmlFor="date" className='text-sm font-medium'>Date</label>

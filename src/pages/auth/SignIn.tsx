@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../../firebase/firebase"
 import { Loader } from 'lucide-react'
 import { Auth } from "../../../context/AuthContext"
+import { Link } from "react-router-dom"
 
 const SignIn = () => {
   const [email, setEmail] = useState(""); 
@@ -26,7 +27,7 @@ const SignIn = () => {
   }
 
   return (
-    <div className='w-full min-h-screen flex items-center justify-center'>
+    <div className='w-full min-h-screen flex items-center flex-col gap-5 justify-center'>
       <div className='max-w-lg w-11/12 shadow-sm shadow-gray-400 rounded-sm py-3 px-3'>
       <h1 className="text-xl font-bold bg-clip-text text-transparent text-center bg-linear-to-r from-blue-600 to-indigo-700">TaskFlow</h1>
       <h2 className='text-center font-medium text-lg mt-5'>Sign In</h2>
@@ -45,6 +46,7 @@ const SignIn = () => {
         <Button className={"text-white bg-blue-700 hover:text-blue-600 w-3/5 block mx-auto"} variant={"ghost"} type='submit'>{isLoading ? <Loader className='animate-bounce' /> : "Sign In"}</Button>
       </form>
       </div>
+      <Link to="/login" className="text-blue-400 hover:text-blue-600">Don't have an account? Sign In</Link>
     </div>
   )
 }
