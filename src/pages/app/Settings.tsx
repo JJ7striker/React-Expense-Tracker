@@ -22,7 +22,7 @@ const Settings = () => {
 
           <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-4">
-              <div className="flex size-16 items-center justify-center rounded-full bg-blue-100 text-lg font-semibold text-blue-800">{userInfo?.email.charAt(0).toUpperCase()}</div>
+              <div className="flex size-16 items-center justify-center rounded-full bg-blue-100 text-lg font-semibold text-blue-800">{userInfo?.email?.charAt(0).toUpperCase()}</div>
               
             </div>
 

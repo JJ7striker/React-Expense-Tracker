@@ -4,11 +4,18 @@ import { X } from 'lucide-react'
 import { Auth } from '../context/AuthContext'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
+import { type Budget } from './types'
 
-const BudgetModal = ({ setIsModalOpen, data }) => {
-  const { setIsOpen, setEditBudgetData, editBudgetData } = Auth();
+interface BudgetModalProps {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Budget;
+}
 
-  const deleteData = async (id) => {
+
+const BudgetModal = ({ setIsModalOpen, data }: BudgetModalProps) => {
+  const { setIsOpen, setEditBudgetData } = Auth();
+
+  const deleteData = async (id: string) => {
     try {
       const docRef = doc(db, "budgets", id);
       await deleteDoc(docRef);

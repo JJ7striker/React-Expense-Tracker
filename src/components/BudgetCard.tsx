@@ -1,13 +1,20 @@
 import { useState } from "react";
 import BudgetModal from "./BudgetModal";
 import { Progress, ProgressValue, ProgressLabel } from "./ui/progress";
+import type { Budget } from "./types";
 
-const BudgetCard = ({ data, loading, spent }) => {
+interface BudgetCardProps {
+  data: Budget,
+  spent: (category: string) => number
+}
+
+const BudgetCard = ({ data, spent }: BudgetCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const amount: number = Number(data?.amount);
     
   const spentInfo = spent(data?.category);
 
-  const progress = (spentInfo / data?.amount) * 100;
+  const progress = (spentInfo / amount) * 100;
 
   return (
     <div className="w-full py-3 px-10 flex flex-col gap-4 shadow-sm relative shadow-gray-300 rounded-lg">

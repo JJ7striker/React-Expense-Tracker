@@ -1,6 +1,6 @@
 import { Loader, X } from 'lucide-react'
 import React, { useState } from 'react'
-import { Button } from './ui/button'
+import { Button } from './ui/button.tsx'
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Auth } from '../context/AuthContext';

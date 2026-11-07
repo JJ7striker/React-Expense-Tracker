@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import AddFormModal from "../../components/AddFormModal";
 import { Input } from "../../components/ui/input";
@@ -18,20 +18,11 @@ import {
 } from "../../components/ui/native-select";
 import ButtonModal from "../../components/ButtonModal";
 import { Auth } from "../../context/AuthContext";
-
-interface TransactionData {
-  amount: string,
-  category: string,
-  createdAt: string,
-  date: string,
-  description: string,
-  notes: string,
-  type: string
-}
+import type { Transaction } from "../../components/types";
 
 const Transactions = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<TransactionData[]>([]);
+  const [data, setData] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [type, setType] = useState("all");
@@ -47,15 +38,15 @@ const Transactions = () => {
     }
     const q = query(dbCollection, where("uid", "==", userInfo?.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const userData = snapshot.docs.map((data) => ({
-        id: data?.id,
-        ...data?.data(),
-      }));
+      const userData: Transaction[] = snapshot.docs.map((document) => ({
+        id: document.id,
+        ...document.data(),
+      }) as Transaction);
       setData(userData);
       setLoading(false);
     });
     return unsubscribe;
-  }, [userInfo?.uid]);
+  }, [userInfo?.uid, dbCollection]);
 
   const deleteItem = async (id: string) => {
     try {
@@ -76,7 +67,7 @@ const Transactions = () => {
     return filteredData;
   };
 
-  const filteredData: TransactionData[] = searchedArr();
+  const filteredData: Transaction[] = searchedArr();
 
   return (
     <div className="w-full min-h-screen py-4 px-3">
@@ -175,7 +166,7 @@ const Transactions = () => {
         ) : (
           filteredData?.map((data) => (
             <table
-              className="grid h-auto overflow-x-hidden grid-cols-6 border-collapse  table-fixed w-[1000px] py-8"
+              className="grid h-auto overflow-x-hidden grid-cols-6 border-collapse  table-fixed w-250 py-8"
               key={data?.id}
             >
               <th>Date</th>

@@ -7,42 +7,42 @@ import { db } from "../../firebase/firebase";
 import { Auth } from "../../context/AuthContext";
 import EditBudget from "../../components/EditBudget";
 import { Loader } from "lucide-react";
+import type { Budget, Transaction } from "../../components/types";
 
 const Budgets = () => {
-  const [totalData, setTotalData] = useState([]);
-  const [budgetData, setBudgetData] = useState([]);
+  const [totalData, setTotalData] = useState<Transaction[]>([]);
+  const [budgetData, setBudgetData] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(true);
 
   const { isOpen, setIsOpen, userInfo } = Auth();
 
-  const transactionRef = collection(db, "transactions");
-  const budgetsRef = collection(db, "budgets");
-
   useEffect(() => {
+    const transactionRef = collection(db, "transactions");
     const q = query(transactionRef, where("uid", "==", userInfo?.uid))
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const userData = snapshot.docs.map((data) => ({
+      const userData: Transaction[] = snapshot.docs.map((data) => ({
         id: data.id,
         ...data.data(),
-      }));
+      }) as Transaction);
       setTotalData(userData);
       setLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [userInfo?.uid]);
 
   useEffect(() => {
+    const budgetsRef = collection(db, "budgets");
     const q = query(budgetsRef, where("uid", "==", userInfo?.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const userData = snapshot.docs.map((data) => ({
+      const userData: Budget[] = snapshot.docs.map((data) => ({
         id: data.id,
         ...data.data(),
-      }));
+      }) as Budget);
       setBudgetData(userData);
       setLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [userInfo?.uid]);
 
   const categoryAmt = (category: string) => {
     const categoryArr = totalData.filter(
@@ -87,7 +87,6 @@ const Budgets = () => {
             <BudgetCard
               data={data}
               key={data?.id}
-              loading={loading}
               spent={categoryAmt}
             />
           ))

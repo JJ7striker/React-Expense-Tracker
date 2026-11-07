@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithPopup, type User } from "firebase/auth";
 import { auth, provider } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import type { Budget } from "../components/types";
 
 interface TransactionObj {
      type: string,
@@ -20,8 +21,8 @@ interface AuthContextType {
   setTransactionObj: React.Dispatch<React.SetStateAction<TransactionObj>>;
   isOpen: number | null;
   setIsOpen: React.Dispatch<React.SetStateAction<number | null>>;
-  editBudgetData: null;
-  setEditBudgetData: React.Dispatch<React.SetStateAction<null>>;
+  editBudgetData: Budget | null;
+  setEditBudgetData: React.Dispatch<React.SetStateAction<Budget | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,7 +31,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const currentDate = new Date().toISOString().split("T")[0];
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [editBudgetData, setEditBudgetData] = useState(null);
+  const [editBudgetData, setEditBudgetData] = useState<Budget | null>(null);
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const [trasactionObj, setTransactionObj] = useState({
     type: "expense",
@@ -63,8 +64,8 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         setUserInfo(null);
       }
     });
-    return unsubscribe;
-  }, []);
+    return unsubscribe
+}, [])
   return (
     <AuthContext.Provider
       value={{
@@ -87,5 +88,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default AuthContextProvider;
 
 export const Auth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (context === null) {
+    throw new Error("Auth must be used within an AuthContextProvider");
+  }
+  return context; 
 };

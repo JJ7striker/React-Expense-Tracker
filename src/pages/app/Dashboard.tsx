@@ -2,30 +2,29 @@ import { useEffect, useState } from "react"
 import { auth, db } from "../../firebase/firebase.ts"
 import { Auth } from "../../context/AuthContext.tsx"
 import { onSnapshot, collection, query, where } from "firebase/firestore"
-import { onAuthStateChanged } from "firebase/auth"
 import { Loader } from "lucide-react"
+import type { Transaction } from "../../components/types";
 
 const Dashboard = () => {
-  const date = new Date()
-   const currentDate = date.toISOString().split("T")[0];
-  const [data, setData] = useState([]);
+  // const date = new Date()
+  //  const currentDate = date.toISOString().split("T")[0];
+  const [data, setData] = useState<Transaction[]>([]);
   const { userInfo } = Auth();
   const [loading, setLoading] = useState(true);
-  const [transactionDate, setTransactionDate] = useState(currentDate);
 
   const dbCollection = collection(db, "transactions")
 
   useEffect(() => {
     const q = query(dbCollection, where("uid", "==", userInfo?.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const userData = snapshot.docs.map(data => (
+      const userData: Transaction[] = snapshot.docs.map(data => (
         {id: data.id, ...data.data()}
-      ))
+      )) as Transaction[];
       setData(userData);
       setLoading(false);
     })
     return unsubscribe;
-  }, [])
+  }, [userInfo?.uid, dbCollection]);
 
 
 
@@ -66,7 +65,7 @@ const Dashboard = () => {
     <div className="w-full min-h-screen px-2 py-3">
       <h2 className="text-lg font-medium text-gray-700">Dashboard</h2>
       <div className="w-full flex items-center justify-between">
-        <h1 className="text-l mt-3 font-medium text-gray-800">{auth?.currentUser?.metadata?.creationTime === auth?.currentUser?.metadata?.lastSignInTime ? `Welcome to TaskFlow ${userInfo?.displayName.split(" ")[0]}` : `Welcome Back ${userInfo?.displayName.split(" ")[0]}`}</h1>
+        <h1 className="text-l mt-3 font-medium text-gray-800">{auth?.currentUser?.metadata?.creationTime === auth?.currentUser?.metadata?.lastSignInTime ? `Welcome to TaskFlow ${userInfo?.displayName?.split(" ")[0]}` : `Welcome Back ${userInfo?.displayName?.split(" ")[0]}`}</h1>
         {/* <input type="date" className="w-2/5 md:w-1/5 rounded-sm shadow-sm shadow-gray-400 p-2" value={transactionDate} onChange={(e) => setTransactionDate(e.target.value)} /> */}
       </div>
 
