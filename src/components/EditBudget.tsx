@@ -4,8 +4,8 @@ import { Input } from "./ui/input"
 import { useState } from "react"
 import { X, Loader } from "lucide-react"
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore"
-import { db } from "../../firebase/firebase"
-import { Auth } from "../../context/AuthContext"
+import { db } from "../firebase/firebase"
+import { Auth } from "../context/AuthContext"
 
 const EditBudget = ({ setIsOpen, budgetData }) => {
   const { editBudgetData } = Auth();

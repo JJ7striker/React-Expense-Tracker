@@ -1,5 +1,5 @@
 import { ChevronRight, CircleHelp, LockKeyhole, ShieldCheck, UserRound } from "lucide-react"
-import { Auth } from "../../../context/AuthContext";
+import { Auth } from "../../context/AuthContext";
 
 const Settings = () => {
   const { userInfo } = Auth();

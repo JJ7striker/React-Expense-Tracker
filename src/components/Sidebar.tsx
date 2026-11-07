@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import ProfileImg from "../../public/profile.jpg"
-import { Auth } from "../../context/AuthContext";
+import { Auth } from "../context/AuthContext";
 import SignOutBtn from "./SignOutBtn";
 
 const Sidebar = () => {

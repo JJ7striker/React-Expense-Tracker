@@ -1,7 +1,7 @@
 import { Loader, LogOut } from 'lucide-react'
 import { useState } from 'react'
 import { signOut } from 'firebase/auth'
-import { auth } from '../../firebase/firebase'
+import { auth } from '../firebase/firebase'
 import { useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
 

@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
-import { Auth } from '../../context/AuthContext';
+import { Auth } from '../context/AuthContext';
 import { NativeSelect, NativeSelectOption } from './ui/native-select';
 import { addDoc, collection } from "firebase/firestore"
-import { db } from '../../firebase/firebase';
+import { db } from '../firebase/firebase';
 import { serverTimestamp } from 'firebase/firestore';
 
 const AddFormModal = ({ setIsModalOpen }) => {

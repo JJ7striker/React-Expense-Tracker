@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { auth, db } from "../../../firebase/firebase"
-import { Auth } from "../../../context/AuthContext"
+import { auth, db } from "../../firebase/firebase.ts"
+import { Auth } from "../../context/AuthContext.tsx"
 import { onSnapshot, collection, query, where } from "firebase/firestore"
 import { onAuthStateChanged } from "firebase/auth"
 import { Loader } from "lucide-react"

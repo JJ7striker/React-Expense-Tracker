@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../../../firebase/firebase"
+import { auth } from "../../firebase/firebase"
 import { Loader } from 'lucide-react'
-import { Auth } from "../../../context/AuthContext"
+import { Auth } from "../../context/AuthContext"
 import { Link } from "react-router-dom"
 
 const SignIn = () => {

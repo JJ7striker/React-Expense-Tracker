@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { X } from 'lucide-react'
-import { Auth } from '../../context/AuthContext'
+import { Auth } from '../context/AuthContext'
 import { deleteDoc, doc } from 'firebase/firestore'
-import { db } from '../../firebase/firebase'
+import { db } from '../firebase/firebase'
 
 const BudgetModal = ({ setIsModalOpen, data }) => {
   const { setIsOpen, setEditBudgetData, editBudgetData } = Auth();

@@ -3,8 +3,8 @@ import { Button } from "../../components/ui/button";
 import AddBudgetForm from "../../components/AddBudgetForm";
 import BudgetCard from "../../components/BudgetCard";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../../firebase/firebase";
-import { Auth } from "../../../context/AuthContext";
+import { db } from "../../firebase/firebase";
+import { Auth } from "../../context/AuthContext";
 import EditBudget from "../../components/EditBudget";
 import { Loader } from "lucide-react";
 

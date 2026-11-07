@@ -11,13 +11,13 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../firebase/firebase";
+import { db } from "../../firebase/firebase";
 import {
   NativeSelect,
   NativeSelectOption,
 } from "../../components/ui/native-select";
 import ButtonModal from "../../components/ButtonModal";
-import { Auth } from "../../../context/AuthContext";
+import { Auth } from "../../context/AuthContext";
 
 interface TransactionData {
   amount: string,

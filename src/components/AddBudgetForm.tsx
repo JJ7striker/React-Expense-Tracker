@@ -4,8 +4,8 @@ import { Input } from "./ui/input"
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
-import { Auth } from "../../context/AuthContext";
+import { db } from "../firebase/firebase";
+import { Auth } from "../context/AuthContext";
 
 const AddBudgetForm = ({ setIsOpen }) => {
    const date = new Date;
