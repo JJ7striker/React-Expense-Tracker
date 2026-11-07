@@ -12,10 +12,12 @@ const Dashboard = () => {
   const { userInfo } = Auth();
   const [loading, setLoading] = useState(true);
 
-  const dbCollection = collection(db, "transactions")
-
   useEffect(() => {
-    const q = query(dbCollection, where("uid", "==", userInfo?.uid));
+    if (!userInfo?.uid) {
+      return;
+    }
+    const dbCollection = collection(db, "transactions");
+    const q = query(dbCollection, where("uid", "==", userInfo.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const userData: Transaction[] = snapshot.docs.map(data => (
         {id: data.id, ...data.data()}
@@ -24,7 +26,7 @@ const Dashboard = () => {
       setLoading(false);
     })
     return unsubscribe;
-  }, [userInfo?.uid, dbCollection]);
+  }, [userInfo?.uid]);
 
 
 

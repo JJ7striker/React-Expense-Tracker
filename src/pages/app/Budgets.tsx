@@ -17,8 +17,11 @@ const Budgets = () => {
   const { isOpen, setIsOpen, userInfo } = Auth();
 
   useEffect(() => {
+    if (!userInfo?.uid) {
+      return;
+    }
     const transactionRef = collection(db, "transactions");
-    const q = query(transactionRef, where("uid", "==", userInfo?.uid))
+    const q = query(transactionRef, where("uid", "==", userInfo.uid))
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const userData: Transaction[] = snapshot.docs.map((data) => ({
         id: data.id,
@@ -31,8 +34,11 @@ const Budgets = () => {
   }, [userInfo?.uid]);
 
   useEffect(() => {
+    if (!userInfo?.uid) {
+      return;
+    }
     const budgetsRef = collection(db, "budgets");
-    const q = query(budgetsRef, where("uid", "==", userInfo?.uid));
+    const q = query(budgetsRef, where("uid", "==", userInfo.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const userData: Budget[] = snapshot.docs.map((data) => ({
         id: data.id,
